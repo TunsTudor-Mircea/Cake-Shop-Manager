@@ -1,0 +1,5 @@
+1, 8, chocolate, 15, 50.5
+2, 12, vanilla, 28, 94.25
+3, 8, caramel, 35, 63.99
+4, 14, strawberry, 20, 102.99
+5, 10, chocolate, 30, 78.5
