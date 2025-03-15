@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,10 +23,6 @@ class BirthdayCakeServiceTest {
         assertTrue(service.getAllBirthdayCakes().isEmpty(), "Repository should be empty upon initialization.");
     }
 
-    @BeforeEach
-    void setUp() {
-        service = new BirthdayCakeService(new MemoryRepository<>());
-    }
 
     @Test
     void testAddBirthdayCake() {
@@ -51,7 +48,7 @@ class BirthdayCakeServiceTest {
         service.addBirthdayCake(8, "chocolate", 5, 20.0);
         BirthdayCake cake = service.getAllBirthdayCakes().get(0);
 
-        BirthdayCake retrievedCake = service.getBirthdayCakeById(Integer.parseInt(cake.getId()));
+        Optional<BirthdayCake> retrievedCake = service.getBirthdayCakeById(Integer.parseInt(cake.getId()));
         assertNotNull(retrievedCake, "Retrieved cake should not be null.");
         assertEquals(cake, retrievedCake, "Retrieved cake should match the added cake.");
     }
@@ -64,11 +61,15 @@ class BirthdayCakeServiceTest {
 
         service.updateBirthdayCake(cakeId, 10, "vanilla", 6, 25.0);
 
-        BirthdayCake updatedCake = service.getBirthdayCakeById(cakeId);
-        assertEquals(10, updatedCake.getSize(), "Updated cake size should be 10.");
-        assertEquals("vanilla", updatedCake.getFlavour(), "Updated cake flavour should be vanilla.");
-        assertEquals(6, updatedCake.getCandles(), "Updated cake candles should be 6.");
-        assertEquals(25.0, updatedCake.getPrice(), "Updated cake price should be 25.0.");
+        Optional<BirthdayCake> updatedCake = service.getBirthdayCakeById(cakeId);
+        BirthdayCake updatedCake2 = new BirthdayCake();
+        if (updatedCake.isPresent()) {
+            updatedCake2 = updatedCake.get();
+        }
+        assertEquals(10, updatedCake2.getSize(), "Updated cake size should be 10.");
+        assertEquals("vanilla", updatedCake2.getFlavour(), "Updated cake flavour should be vanilla.");
+        assertEquals(6, updatedCake2.getCandles(), "Updated cake candles should be 6.");
+        assertEquals(25.0, updatedCake2.getPrice(), "Updated cake price should be 25.0.");
     }
 
     @Test

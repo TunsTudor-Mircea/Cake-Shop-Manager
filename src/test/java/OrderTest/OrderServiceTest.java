@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,12 +40,13 @@ public class OrderServiceTest {
     public void testAddOrder() {
         orderService.addOrder("Alice", "phone", "01/11/2023", Arrays.asList(1, 2));
 
-        Order addedOrder = orderRepository.findById("1");
+        Optional<Order> addedOrder = orderRepository.findById("1");
+        Order addedOrder1 = addedOrder.get();
         assertNotNull(addedOrder);
-        assertEquals("Alice", addedOrder.getCustomerName());
-        assertEquals("phone", addedOrder.getCustomerContact());
-        assertEquals("01/11/2023", addedOrder.getOrderDate());
-        assertEquals(Arrays.asList(1, 2), addedOrder.getCakeIds());
+        assertEquals("Alice", addedOrder1.getCustomerName());
+        assertEquals("phone", addedOrder1.getCustomerContact());
+        assertEquals("01/11/2023", addedOrder1.getOrderDate());
+        assertEquals(Arrays.asList(1, 2), addedOrder1.getCakeIds());
     }
 
     @Test
@@ -52,7 +54,7 @@ public class OrderServiceTest {
         orderService.addOrder("Alice", "phone", "01/11/2023", Arrays.asList(1, 2));
         orderService.removeOrder(1);
 
-        Order removedOrder = orderRepository.findById("1");
+        Optional<Order> removedOrder = orderRepository.findById("1");
         assertNull(removedOrder);
     }
 
@@ -61,22 +63,24 @@ public class OrderServiceTest {
         orderService.addOrder("Alice", "phone", "01/11/2023", Arrays.asList(1, 2));
 
         orderService.updateOrder(1, "Alice-Updated", "fax", "05/11/2023", Arrays.asList(2, 3));
-        Order updatedOrder = orderRepository.findById("1");
+        Optional<Order> updatedOrder = orderRepository.findById("1");
+        Order updatedOrder1 = updatedOrder.get();
 
         assertNotNull(updatedOrder);
-        assertEquals("Alice-Updated", updatedOrder.getCustomerName());
-        assertEquals("fax", updatedOrder.getCustomerContact());
-        assertEquals("05/11/2023", updatedOrder.getOrderDate());
-        assertEquals(Arrays.asList(2, 3), updatedOrder.getCakeIds());
+        assertEquals("Alice-Updated", updatedOrder1.getCustomerName());
+        assertEquals("fax", updatedOrder1.getCustomerContact());
+        assertEquals("05/11/2023", updatedOrder1.getOrderDate());
+        assertEquals(Arrays.asList(2, 3), updatedOrder1.getCakeIds());
     }
 
     @Test
     public void testGetOrderById() {
         orderService.addOrder("Alice", "phone", "01/11/2023", Arrays.asList(1, 2));
-        Order result = orderService.getOrderById(1);
+        Optional<Order> result = orderService.getOrderById(1);
+        Order result1 = result.get();
 
         assertNotNull(result);
-        assertEquals("Alice", result.getCustomerName());
+        assertEquals("Alice", result1.getCustomerName());
     }
 
     @Test

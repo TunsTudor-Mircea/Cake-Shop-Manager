@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,8 +63,9 @@ public class OrderRepositoryTest {
         order1.setCustomerName("Alice Updated");
         orderRepository.updateOrder(order1);
 
-        Order updatedOrder = orderRepository.getOrderById(order1.getOrderId());
-        assertEquals("Alice Updated", updatedOrder.getCustomerName());
+        Optional<Order> updatedOrder = orderRepository.getOrderById(order1.getOrderId());
+        Order updatedOrder1 = updatedOrder.get();
+        assertEquals("Alice Updated", updatedOrder1.getCustomerName());
     }
 
     @Test
