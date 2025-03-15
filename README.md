@@ -25,3 +25,5 @@ Cake-Shop Manager is a Java-based application designed to help cake shop owners 
 **JDBC** (Database connection)
 
 **Maven** (Build automation)
+
+**JUnit** (Unit testing)
